@@ -1,1 +1,2 @@
-# notion_citation
+# Citation management by Notion
+
