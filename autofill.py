@@ -29,11 +29,13 @@ def get_paper_info(doi):
     if response.status_code == 200:
         # Parse the JSON response
         data = response.json()["message"]
+        if len(data["short-container-title"]) > 0: journal = data["short-container-title"][0]
+        else: journal = data["container-title"][0]
         return {
             "Author": [f"{a['given']} {a['family']}" for a in data["author"]],
             "Title": data["title"][0],
             "Year": data["published"]["date-parts"][0][0],
-            "Journal": data["short-container-title"][0],
+            "Journal": journal,
             "doi": doi
         }
 
