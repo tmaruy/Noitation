@@ -25,6 +25,22 @@ def check_api_key(key):
         return False, f"{response.status_code} - {response.text}"
 
 
+def check_notion_db_id(db, key):
+    # get database information
+    url = f"https://api.notion.com/v1/databases/{db}/query"
+    headers = {
+        "Accept": "application/json",
+        "Authorization": f"Bearer {key}",
+        "Notion-Version": "2022-06-28"
+    }
+    response = requests.post(url, headers=headers)
+    if response.status_code == 200:
+        return True, ""
+    else: 
+        return False, f"{response.status_code} - {response.text}"
+
+
+
 def get_notion_db(db, key):
     # get database information
     url = f"https://api.notion.com/v1/databases/{db}/query"
@@ -120,7 +136,7 @@ class NotionCitationApp(App):
         self.menu.update([
             [
                 MenuItem("Settings"), [
-                    MenuItem("API key", self.add_api_key), 
+                    MenuItem("Add API key", self.add_api_key), 
                     MenuItem("Add database", self.add_database)
                 ]
             ], 
@@ -146,13 +162,12 @@ class NotionCitationApp(App):
         response = w.run()
         if response.clicked:
             val, message = check_api_key(response.text)
-            print(val, message)
             if val: 
                 self.config["api_key"] = str(response.text)
                 self.update_config()
                 self.update_menu()
             else:
-                show_alert("Failure", f"The API key was not working: {message}")
+                show_alert("Failure", "The API key is not working")
 
     def add_database(self, menuitem):
         w = rumps.Window("Add database", 
@@ -163,16 +178,19 @@ class NotionCitationApp(App):
         if response.clicked:
             db_name = response.text.split("\n")[0].split(":")[1].strip()
             db_id = response.text.split("\n")[1].split(":")[1].strip()
-            if db_name == "":
-                show_alert("Failure", "Database name is empty")
-            elif db_id == "":
-                show_alert("Failure", "Database ID is empty")
-            elif not "database" in self.config: 
-                self.config["database"] = {db_name: db_id}
+            if db_name == "": show_alert("Failure", "Database name is empty")
+            elif db_id == "": show_alert("Failure", "Database ID is empty")
+            if not "api_key" in self.config: show_alert("Failure", "Please set API key first")
+            val, message = check_notion_db_id(db_id, self.config.get("api_key", ""))
+            if val:
+                if not "database" in self.config: 
+                    self.config["database"] = {db_name: db_id}
+                else:
+                    self.config["database"][db_name] = db_id
+                self.update_config()
+                self.update_menu()
             else:
-                self.config["database"][db_name] = db_id
-            self.update_config()
-            self.update_menu()
+                show_alert("Failure", f"The database ID {db_id} was not found")
 
     def userclick(self, menuitem):
         db = self.dbs[menuitem.title]
