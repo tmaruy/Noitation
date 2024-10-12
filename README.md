@@ -1,2 +1,4 @@
-# Citation management by Notion
+# Noitation
+
+Noitation: Notion citation management tool
 
