@@ -18,3 +18,5 @@
 
 ## License
 
+- BSD-4 license
+- *Noitation* is developed with a Python module [rumps](https://github.com/jaredks/rumps) developed by jaredks.
