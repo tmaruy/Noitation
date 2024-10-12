@@ -122,7 +122,7 @@ class NotionCitationApp(App):
 
     def __init__(self):
         super(NotionCitationApp, self).__init__("NotionCitationApp")
-        self.icon = "static/logo.png"
+        self.icon = "logo.png"
         self.quit_button = None
         self.update_menu()
 
@@ -174,6 +174,7 @@ class NotionCitationApp(App):
                          default_text="Database name:\nDatabase ID:", 
                          dimensions=(200, 40), 
                          cancel=True)
+        w.icon = self.icon
         response = w.run()
         if response.clicked:
             db_name = response.text.split("\n")[0].split(":")[1].strip()
