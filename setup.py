@@ -1,7 +1,7 @@
 from setuptools import setup
 
-APP = ['app.py']
-DATA_FILES = ["key.yaml", "logo.png"]
+APP = ['Noitation.py']
+DATA_FILES = ["key.yaml", "icon.png"]
 OPTIONS = {
     'argv_emulation': True,
     'plist': {

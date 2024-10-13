@@ -122,7 +122,7 @@ class NotionCitationApp(App):
 
     def __init__(self):
         super(NotionCitationApp, self).__init__("NotionCitationApp")
-        self.icon = "logo.png"
+        self.icon = "icon.png"
         self.quit_button = None
         self.update_menu()
 
@@ -166,6 +166,7 @@ class NotionCitationApp(App):
                 self.config["api_key"] = str(response.text)
                 self.update_config()
                 self.update_menu()
+                show_alert("Succeeded!", "The API key is was verified")
             else:
                 show_alert("Failure", "The API key is not working")
 
@@ -190,6 +191,7 @@ class NotionCitationApp(App):
                     self.config["database"][db_name] = db_id
                 self.update_config()
                 self.update_menu()
+                show_alert("Succeeded!", "The Database ID was verified")
             else:
                 show_alert("Failure", f"The database ID {db_id} was not found")
 

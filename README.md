@@ -2,6 +2,8 @@
 
 *Noitation* is a MacOS Statusbar app that automatically completes metadata of scientific literatures (e.g., publications, books) into the Notion database.
 
+![demo](./static/animation.gif)
+
 ## How to use
 
 1. Install the app
