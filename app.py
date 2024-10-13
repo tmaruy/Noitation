@@ -122,7 +122,7 @@ class NotionCitationApp(App):
 
     def __init__(self):
         super(NotionCitationApp, self).__init__("NotionCitationApp")
-        self.icon = "logo.png"
+        self.icon = "icon.png"
         self.quit_button = None
         self.update_menu()
 
